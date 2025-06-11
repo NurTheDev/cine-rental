@@ -1,9 +1,10 @@
+import Logo from "../assets/Logo.jsx";
 export default function Header() {
     return (
         <header>
             <nav className="container flex items-center justify-between space-x-10 py-6">
                 <a href="index.html">
-                    <img src="./assets/logo.svg" width="139" height="26" alt=""/>
+                    <Logo className="w-32 h-10"  />
                 </a>
 
                 <ul className="flex items-center space-x-5">
