@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {getMovieCover} from "../Data/Data.js";
 import Rating from "./Rating.jsx";
+import MovieModal from "./MovieModal.jsx";
 
-const MovieCard = ({movie , setShowModal, setSelectedMovie}) => {
+const MovieCard = ({movie }) => {
+    const [showModal, setShowModal] = useState(false)
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedMovie(null);
+    };
+    const handleMovieClick = () => {
+        setSelectedMovie(movie);
+        setShowModal(true);
+    };
     return (
-
+        <>
+            {showModal && <MovieModal movie={selectedMovie} onClose={handleCloseModal}/>}
         <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
-            <img onClick={()=>{
-                setSelectedMovie(movie);
-                setShowModal();
-            }}  className="w-full object-cover" src={getMovieCover(movie.cover)} alt=""/>
+            <img onClick={()=> handleMovieClick()}  className="w-full object-cover cursor-pointer" src={getMovieCover(movie.cover)} alt=""/>
             <figcaption className="pt-4">
                 <h3 className="text-xl mb-1">{movie.title}</h3>
                 <p className="text-[#575A6E] text-sm mb-2">{movie.genre}</p>
@@ -23,6 +32,7 @@ const MovieCard = ({movie , setShowModal, setSelectedMovie}) => {
                 </a>
             </figcaption>
         </figure>
+</>
     );
 };
 export default MovieCard;

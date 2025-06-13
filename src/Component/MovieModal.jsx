@@ -1,7 +1,7 @@
 import React from 'react';
 import {getMovieCover} from "../Data/Data.js";
 import tag from "../assets/tag.svg";
-const MovieModal = ({movie, setShowModal}) => {
+const MovieModal = ({movie, onClose}) => {
     return (
         <div
             className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm"
@@ -35,7 +35,7 @@ const MovieModal = ({movie, setShowModal}) => {
                                 <img src={tag || ""} alt=""/>
                                 <span>${movie.price} | Add to Cart</span>
                             </a>
-                            <a onClick={() => setShowModal()}
+                            <a onClick={() => onClose()}
                                 className="border border-[#74766F] rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#6F6F6F] dark:text-gray-200 font-semibold text-sm"
                                 href="#"
                             >
