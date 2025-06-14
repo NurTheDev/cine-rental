@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
     --color-primary: #00D991;
     --color-dark: #171923;
@@ -8,5 +9,12 @@
 @layer components {
     .container {
         @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+    .dark {
+        @apply bg-dark text-white;
+    }
+
+    .dark * {
+        @apply dark:border-gray-700;
     }
 }

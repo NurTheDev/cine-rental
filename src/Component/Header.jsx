@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import logo from "../assets/logo.svg";
 import ring from "../assets/ring.svg";
 import sun from "../assets/icons/sun.svg";
+import moon from "../assets/icons/moon.svg";
 import shoppingCart from "../assets/shopping-cart.svg";
 import {useContext} from "react";
 import {movieContext} from "../context/index.js";
+import {themeContext} from "../context/index.js";
 import Cart from "./Cart.jsx";
 export default function Header() {
     const [showCart, setShowCart] = useState(false);
@@ -12,6 +14,7 @@ export default function Header() {
         setShowCart(!showCart);
     }
     const {movies} = useContext(movieContext);
+    const {theme, setTheme} = useContext(themeContext);
     return (
         <>{showCart && <Cart onClick={handleCartClick}/>}
             <header>
@@ -28,9 +31,9 @@ export default function Header() {
                             </a>
                         </li>
                         <li>
-                            <a className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
+                            <a className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block" onClick={()=>setTheme(!theme)}
                                href="#">
-                                <img src={sun || ""} width="24" height="24" alt=""/>
+                                <img src={theme ? sun : moon || ""} width="24" height="24" alt=""/>
                             </a>
                         </li>
                         <li className="relative">
