@@ -12,7 +12,6 @@ export default function Header() {
         setShowCart(!showCart);
     }
     const {movies} = useContext(movieContext);
-    console.log(movies, "movies in cart");
     return (
         <>{showCart && <Cart onClick={handleCartClick}/>}
             <header>
@@ -34,11 +33,16 @@ export default function Header() {
                                 <img src={sun || ""} width="24" height="24" alt=""/>
                             </a>
                         </li>
-                        <li>
+                        <li className="relative">
                             <a className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
                                href="#" onClick={handleCartClick}>
                                 <img src={shoppingCart || ""} width="24" height="24" alt=""/>
                             </a>
+                            {movies.length > 0 && (
+                                <span className="rounded-full absolute top-[-12px] left-[28px] bg-[#12CF6F] text-white text-center p-[2px] w-[20px] h-[20px] text-xs font-semibold">
+                                    {movies.length}
+                                </span>
+                            )}
                         </li>
                     </ul>
                 </nav>

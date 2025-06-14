@@ -30,7 +30,7 @@ const MovieCard = ({movie }) => {
     };
     return (
         <>
-            {showModal && <MovieModal movie={selectedMovie} onClose={handleCloseModal}/>}
+            {showModal && <MovieModal movie={selectedMovie} onClose={handleCloseModal} onAddToCart={handleAddToCart}/>}
         <figure onClick={()=> handleMovieClick()}  className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
             <img  className="w-full object-cover cursor-pointer" src={getMovieCover(movie.cover)} alt=""/>
             <figcaption className="pt-4">

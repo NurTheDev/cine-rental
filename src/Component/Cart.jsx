@@ -1,7 +1,17 @@
 import React from 'react';
+import {useContext} from "react";
+import {movieContext} from "../context/index.js";
+import {getMovieCover} from "../Data/Data.js";
+import deleteIcon from '../assets/delete.svg'; // Assuming you have a delete icon
+import checkoutIcon from '../assets/icons/checkout.svg';
+import EmptyMessage from "./EmptyMessage.jsx"; // Assuming you have a checkout icon
 
 const Cart = ({onClick}) => {
-
+    const {movies, setMovies} = useContext(movieContext);
+    const handleRemoveFromCart = (movieId) => {
+        const updatedMovies = movies.filter(movie => movie.id !== movieId);
+        setMovies(updatedMovies);
+    }
     return (
         <div
             className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm"
@@ -14,63 +24,48 @@ const Cart = ({onClick}) => {
                 >
                     <h2 className="text-2xl lg:text-[30px] mb-10 font-bold">Your Carts</h2>
                     <div
-                        className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14"
-                    >
-                        <div className="grid grid-cols-[1fr_auto] gap-4">
-                            <div className="flex items-center gap-4">
-                                <img
-                                    className="rounded overflow-hidden"
-                                    src="/assets/cart-item.png"
-                                    alt=""
-                                />
-                                <div>
-                                    <h3 className="text-base md:text-xl font-bold">Iron Man</h3>
-                                    <p className="max-md:text-xs text-[#575A6E]">
-                                        Action/Adventure/Sci-fi
-                                    </p>
-                                    <span className="max-md:text-xs">$100</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between gap-4 items-center">
-                                <button
-                                    className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                                >
-                                    <img className="w-5 h-5" src="./assets/delete.svg" alt=""/>
-                                    <span className="max-md:hidden">Remove</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-[1fr_auto] gap-4">
-                            <div className="flex items-center gap-4">
-                                <img
-                                    className="rounded overflow-hidden"
-                                    src="/assets/cart-item.png"
-                                    alt=""
-                                />
-                                <div>
-                                    <h3 className="text-base md:text-xl font-bold">Iron Man</h3>
-                                    <p className="max-md:text-xs text-[#575A6E]">
-                                        Action/Adventure/Sci-fi
-                                    </p>
-                                    <span className="max-md:text-xs">$100</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between gap-4 items-center">
-                                <button
-                                    className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                                >
-                                    <img className="w-5 h-5" src="./assets/delete.svg" alt=""/>
-                                    <span className="max-md:hidden">Remove</span>
-                                </button>
-                            </div>
-                        </div>
+                        className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
+                        {
+                            movies.length > 0 ? (
+                                movies.map((movie)=>(
+                                    <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
+                                        <div className="flex items-center gap-4">
+                                            <img
+                                                className="rounded overflow-hidden w-[80px] h-[120px] md:w-[100px] md:h-[150px]"
+                                                src={getMovieCover(movie.cover)}
+                                                alt=""
+                                            />
+                                            <div>
+                                                <h3 className="text-base md:text-xl font-bold">{movie.title}</h3>
+                                                <p className="max-md:text-xs text-[#575A6E]">
+                                                    {movie.genre}
+                                                </p>
+                                                <span className="max-md:text-xs">${movie.price}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-4 items-center">
+                                            <button
+                                                className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white" onClick={(e) => {
+                                                handleRemoveFromCart(movie.id)}
+                                            }
+                                            >
+                                                <img className="w-5 h-5" src={deleteIcon || ""} alt="./assets/delete.svg"/>
+                                                <span className="max-md:hidden">Remove</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <EmptyMessage/>
+                            )
+                        }
                     </div>
                     <div className="flex items-center justify-end gap-2">
                         <a
                             className="rounded-md p-2 md:px-4 inline-flex items-center space-x-2 bg-primary text-[#171923] text-sm"
                             href="#"
                         >
-                            <img src="./assets/icons/checkout.svg" width="24" height="24" alt=""/>
+                            <img src={checkoutIcon || ""} width="24" height="24" alt="./assets/icons/checkout.svg"/>
                             <span>Checkout</span>
                         </a>
                         <a
