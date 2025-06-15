@@ -4,11 +4,12 @@ import Rating from "./Rating.jsx";
 import MovieModal from "./MovieModal.jsx";
 import {useContext} from "react";
 import {movieContext} from "../context/index.js";
+import {Bounce, toast} from "react-toastify";
 
 const MovieCard = ({movie }) => {
     const [showModal, setShowModal] = useState(false)
     const [selectedMovie, setSelectedMovie] = useState(null);
-    const {movies, setMovies} = useContext(movieContext);
+    const {state, dispatch} = useContext(movieContext);
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedMovie(null);
@@ -19,13 +20,41 @@ const MovieCard = ({movie }) => {
     };
     const handleAddToCart = (e, movie) => {
         e.stopPropagation();
-        const existingMovie = movies.find(m=> m.id === movie.id);
+        const existingMovie = state.cartItems.find(m=> m.id === movie.id);
         if( existingMovie) {
-            alert("This movie is already in your cart.");
+            toast.error(`${movie.title} is already added to cart`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
             return;
         }
         else {
-            setMovies([...movies, movie]);
+            dispatch(
+                {
+                    type : 'CART_ADD_ITEM',
+                    payload: {
+                        ...movie,
+                    }
+                }
+            )
+            toast.success(`${movie.title} added to cart successfully`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
         }
     };
     return (

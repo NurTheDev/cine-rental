@@ -13,7 +13,7 @@ export default function Header() {
     const handleCartClick = () => {
         setShowCart(!showCart);
     }
-    const {movies} = useContext(movieContext);
+    const {state} = useContext(movieContext);
     const {theme, setTheme} = useContext(themeContext);
     return (
         <>{showCart && <Cart onClick={handleCartClick}/>}
@@ -41,9 +41,9 @@ export default function Header() {
                                href="#" onClick={handleCartClick}>
                                 <img src={shoppingCart || ""} width="24" height="24" alt=""/>
                             </a>
-                            {movies.length > 0 && (
+                            {state.cartItems.length > 0 && (
                                 <span className="rounded-full absolute top-[-12px] left-[28px] bg-[#12CF6F] text-white text-center p-[2px] w-[20px] h-[20px] text-xs font-semibold">
-                                    {movies.length}
+                                    {state.cartItems.length}
                                 </span>
                             )}
                         </li>

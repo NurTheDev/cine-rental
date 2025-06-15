@@ -4,13 +4,29 @@ import {movieContext} from "../context/index.js";
 import {getMovieCover} from "../Data/Data.js";
 import deleteIcon from '../assets/delete.svg'; // Assuming you have a delete icon
 import checkoutIcon from '../assets/icons/checkout.svg';
-import EmptyMessage from "./EmptyMessage.jsx"; // Assuming you have a checkout icon
+import EmptyMessage from "./EmptyMessage.jsx";
+import {Bounce, toast} from "react-toastify"; // Assuming you have a checkout icon
 
 const Cart = ({onClick}) => {
-    const {movies, setMovies} = useContext(movieContext);
+    const {state, dispatch} = useContext(movieContext);
     const handleRemoveFromCart = (movieId) => {
-        const updatedMovies = movies.filter(movie => movie.id !== movieId);
-        setMovies(updatedMovies);
+        dispatch({
+            type: 'CART_REMOVE_ITEM',
+            payload: {
+                id: movieId
+            }
+        })
+        toast.info(`item removed from cart`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+        });
     }
     return (
         <div
@@ -26,8 +42,8 @@ const Cart = ({onClick}) => {
                     <div
                         className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
                         {
-                            movies.length > 0 ? (
-                                movies.map((movie)=>(
+                            state.cartItems.length > 0 ? (
+                                state.cartItems.map((movie)=>(
                                     <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
                                         <div className="flex items-center gap-4">
                                             <img
@@ -45,7 +61,7 @@ const Cart = ({onClick}) => {
                                         </div>
                                         <div className="flex justify-between gap-4 items-center">
                                             <button
-                                                className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white" onClick={(e) => {
+                                                className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white cursor-pointer" onClick={() => {
                                                 handleRemoveFromCart(movie.id)}
                                             }
                                             >
